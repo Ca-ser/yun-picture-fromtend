@@ -38,49 +38,50 @@
 
 </template>
 <script lang="ts" setup>
-import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
+import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue'
 import { computed, onMounted, reactive, ref } from 'vue'
 import { deleteUserUsingPost, listUserVoByPageUsingPost } from '@/api/userController.ts'
 import { message } from 'ant-design-vue'
 import dayjs from 'dayjs'
+
 const columns = [
   {
     title: 'id',
-    dataIndex: 'id',
+    dataIndex: 'id'
   },
   {
     title: '账号',
-    dataIndex: 'userAccount',
+    dataIndex: 'userAccount'
   },
   {
     title: '用户名',
-    dataIndex: 'userName',
+    dataIndex: 'userName'
   },
   {
     title: '头像',
-    dataIndex: 'userAvatar',
+    dataIndex: 'userAvatar'
   },
   {
     title: '简介',
-    dataIndex: 'userProfile',
+    dataIndex: 'userProfile'
   },
   {
     title: '用户角色',
-    dataIndex: 'userRole',
+    dataIndex: 'userRole'
   },
   {
     title: '创建时间',
-    dataIndex: 'createTime',
+    dataIndex: 'createTime'
   },
   {
     title: '更新时间',
-    dataIndex: 'updateTime',
+    dataIndex: 'updateTime'
   },
   {
     title: '操作',
-    key: 'action',
-  },
-];
+    key: 'action'
+  }
+]
 // 数据
 const dataList = ref([])
 const total = ref(0)
@@ -88,7 +89,7 @@ const total = ref(0)
 // 搜索条件
 const searchParams = reactive<API.UserQueryRequest>({
   current: 1,
-  pageSize: 10,
+  pageSize: 10
 })
 
 // 获取数据
@@ -103,14 +104,16 @@ const fetchData = async () => {
     message.error('获取数据失败，' + res.data.message)
   }
 }
+// 页面加载时请求一次
+onMounted(() => {
+  fetchData()
+})
 // 获取数据
 const doSearch = () => {
   // 重置页码
   searchParams.current = 1
   fetchData()
 }
-
-
 
 
 // 表格变化处理
@@ -126,7 +129,7 @@ const pagination = computed(() => {
     pageSize: searchParams.pageSize ?? 10,
     total: total.value,
     showSizeChanger: true,
-    showTotal: (total) => `共 ${total} 条`,
+    showTotal: (total) => `共 ${total} 条`
   }
 })
 
@@ -146,9 +149,5 @@ const doDelete = async (id: string) => {
 }
 
 
-// 页面加载时请求一次
-onMounted(() => {
-  fetchData()
-})
 </script>
 
