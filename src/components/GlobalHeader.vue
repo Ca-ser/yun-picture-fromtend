@@ -5,7 +5,7 @@
         <router-link to="/">
           <div class="title-bar">
             <img class="logo" src="../assets/logo.png" alt="logo" />
-            <div class="title">NC智能协同云图库</div>
+            <div class="title" >NC云图库</div>
           </div>
         </router-link>
       </a-col>
@@ -152,7 +152,7 @@ const doLogout = async () => {
 
 .title {
   color: black;
-  font-size: 10px;
+  font-size: 20px;
   margin-left: 20px;
 }
 

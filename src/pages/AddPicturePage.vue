@@ -1,6 +1,8 @@
 <template>
   <div id="addPicturePage">
-    <h2 style="margin-bottom: 16px">创建图片</h2>
+    <h2 style="margin-bottom: 16px">
+      {{ route.query?.id ? '修改图片' : '创建图片' }}
+    </h2>
     <!-- 图片上传组件-->
     <PictureUpload :picture="picture" :onSuccess="onSuccess" />
     <!-- 图片信息表单-->
@@ -45,8 +47,12 @@
 <script setup lang="ts">
 import PictureUpload from '@/components/PictureUpload.vue'
 import { onMounted, reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { editPictureUsingPost, listPictureTagCategoryUsingGet } from '@/api/pictureController.ts'
+import { useRoute, useRouter } from 'vue-router'
+import {
+  editPictureUsingPost,
+  getPictureVoByIdUsingGet,
+  listPictureTagCategoryUsingGet
+} from '@/api/pictureController.ts'
 import { message } from 'ant-design-vue'
 const picture = ref<API.PictureVO>()
 const pictureForm = reactive<API.PictureEditRequest>({})
@@ -109,6 +115,32 @@ const getTagCategoryOptions = async () => {
     message.error('加载选项失败，' + res.data.message)
   }
 }
+
+const route = useRoute()
+
+// 获取老数据
+const getOldPicture = async () => {
+  // 获取数据
+  const id = route.query?.id
+  if (id) {
+    const res = await getPictureVoByIdUsingGet({
+      id: id,
+    })
+    if (res.data.code === 0 && res.data.data) {
+      const data = res.data.data
+      picture.value = data
+      pictureForm.name = data.name
+      pictureForm.introduction = data.introduction
+      pictureForm.category = data.category
+      pictureForm.tags = data.tags
+    }
+  }
+}
+
+onMounted(() => {
+  getOldPicture()
+})
+
 
 onMounted(() => {
   getTagCategoryOptions()

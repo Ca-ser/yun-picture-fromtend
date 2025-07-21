@@ -1,10 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import UserLoginPage from '@/pages/user/UserLoginPage.vue'
 import UserRegisterPage from '@/pages/user/UserRegisterPage.vue'
 import UserManagerPage from '@/pages/admin/UserManagerPage.vue'
 import AddPicturePage from '@/pages/AddPicturePage.vue'
 import PictureManagePage from '@/pages/admin/PictureManagePage.vue'
+import HomePage from '@/pages/HomePage.vue'
+import PictureDetailPage from '@/pages/PictureDetailPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,7 +13,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: HomePage,
     },
     {
       path: '/user/login',
@@ -34,6 +35,12 @@ const router = createRouter({
       path: '/add_picture',
       name: '创建图片',
       component: AddPicturePage,
+    },
+    {
+      path: '/picture/:id',
+      name: '图片详情',
+      component: PictureDetailPage,
+      props: true,
     },
     {
       path: '/admin/pictureManage',
