@@ -49,6 +49,13 @@
             <a-space wrap>
               <a-button v-if="canEdit" type="default" @click="doEdit">编辑</a-button>
               <a-button v-if="canEdit" danger @click="doDelete">删除</a-button>
+              <a-button type="primary" @click="doDownload">
+                下载
+                <template #icon>
+                 <DownloadOutlined />
+                </template>
+              </a-button>
+
             </a-space>
 
           </a-descriptions>
@@ -62,9 +69,10 @@
 import { computed, onMounted, ref } from 'vue'
 import { deletePictureUsingPost, getPictureVoByIdUsingGet } from '@/api/pictureController.ts'
 import { message } from 'ant-design-vue'
-import { formatSize } from '@/utils'
+import { downloadImage, formatSize } from '@/utils'
 import { useLoginUserStore } from '@/stores/useLoginUserStore.ts'
 import { useRouter } from 'vue-router'
+import { DownloadOutlined } from '@ant-design/icons-vue'
 
 const props = defineProps<{
   id: string | number
@@ -125,6 +133,12 @@ const doDelete = async () => {
     message.error('删除失败')
   }
 }
+
+// 处理下载
+const doDownload = () => {
+  downloadImage(picture.value.url)
+}
+
 
 
 </script>

@@ -11,7 +11,6 @@ export const useLoginUserStore = defineStore('loginuser', () => {
   })
 
   async function fetchLoginUser() {
-    // todo 后端暂未提供接口哦，暂时注释
     const res = await getLoginUserUsingGet()
     if (res.data.code === 0 && res.data.data) {
       loginUser.value = res.data.data;
